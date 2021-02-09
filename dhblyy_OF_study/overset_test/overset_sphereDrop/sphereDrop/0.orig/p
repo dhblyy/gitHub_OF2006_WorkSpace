@@ -1,0 +1,67 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                  |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 101325;
+
+boundaryField
+{
+    oversetpatch
+    {
+        type            overset;
+        value           uniform 101325;
+    }
+     front
+    {
+        type            wedge;
+    }
+    back
+    {
+        type            wedge;
+    }
+   
+    top
+    {
+        type            fixedValue;
+        value           uniform 101325;
+    }
+    bottom
+    {
+        type            fixedValue;
+        value           uniform 101325;
+    }
+    farFieldWall
+    {
+        type            fixedValue;
+        value           uniform 101325;
+    }
+
+    oversetPatch
+    {
+        type            overset;
+        value           uniform 101325;
+    }
+    sphere
+    {
+        type            fixedValue;
+        value           uniform 101325;
+    }
+}
+
+
+// ************************************************************************* //

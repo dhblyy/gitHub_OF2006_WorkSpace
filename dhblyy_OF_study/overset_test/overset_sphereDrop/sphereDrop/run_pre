@@ -1,0 +1,21 @@
+#!/bin/sh
+#cd ${0%/*} || exit 1                        # Run from this directory
+. $WM_PROJECT_DIR/bin/tools/RunFunctions  # Tutorial clean functions
+
+runApplication blockMesh
+
+mergeMeshes . ../oversetMesh -overwrite | tee log.mergeMeshes
+
+topoSet | tee log.topoSet
+
+restore0Dir
+
+setFields | tee log.setFields
+
+decomposePar | tee log.decomposePar
+
+renumberMesh -overwrite | tee log.renumberMesh
+
+
+
+#------------------------------------------------------------------------------

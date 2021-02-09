@@ -1,0 +1,75 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+motionSolverLibs    ("libsixDoFRigidBodyMotion.so");
+
+dynamicFvMesh       dynamicOversetFvMesh;
+
+solver          sixDoFRigidBodyMotion;
+
+sixDoFRigidBodyMotionCoeffs
+{
+
+    patches         (sphere);
+    innerDistance   0.120;
+    outerDistance   0.3;
+
+    centreOfMass    (0 0.147 0);
+
+    // Cuboid dimensions
+  //  R              0.003;
+
+
+    // Density of the solid
+    rhoSolid        1000;
+
+    // Cuboid mass
+    mass           2.08e-3; //#calc "$rhoSolid*4/3*3.14*$R*$R*$R";
+
+    momentOfInertia (2e-3 2e-3 2e-3);
+    velocity        (0 -3.77 0);
+
+    // Cuboid moment of inertia about the centre of mass
+  /*  momentOfInertia #codeStream
+    {
+        codeInclude
+        #{
+            #include "diagTensor.H"
+        #};
+
+        code
+        #{
+            scalar sqrR = $R*$R;
+            os  <<
+                $mass*0.4
+                *diagTensor(sqrR,sqrR,sqrR);
+        #};
+    };
+  */
+    report          on;
+    accelerationRelaxation 0.9;
+    accelerationDamping    0.95;
+
+    solver
+    {
+        type Newmark;
+    }
+
+}
+
+
+
+// ************************************************************************* //
